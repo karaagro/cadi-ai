@@ -1,0 +1,11 @@
+flask 
+torch
+torchvision 
+torchaudio 
+opencv-python 
+pandas 
+psutil 
+pyyaml
+tqdm
+matplotlib
+seaborn

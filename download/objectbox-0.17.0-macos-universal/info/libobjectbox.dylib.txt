@@ -1,0 +1,16 @@
+libobjectbox.dylib:
+  >> Date: 2022-06-15 11:07:35
+  >> Size: 2867647
+  >> Section types: __TEXT, __DATA, __OBJC
+  >> Sizes by type: 983040, 32768, 0
+  >> Info: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit dynamically linked shared library x86_64Mach-O 64-bit dynamically linked shared library x86_64] [arm64]
+/Volumes/GrayBoxSsd/gitlab-builds/hYL5zQGV/0/objectbox/objectbox/cbuild/Release/objectbox-c/libobjectbox.dylib (for architecture x86_64):	Mach-O 64-bit dynamically linked shared library x86_64
+/Volumes/GrayBoxSsd/gitlab-builds/hYL5zQGV/0/objectbox/objectbox/cbuild/Release/objectbox-c/libobjectbox.dylib (for architecture arm64):	Mach-O 64-bit dynamically linked shared library arm64
+  >> Version found: 3.2.0-2022-06-14
+  >>     4842 internal symbols. C: 0 mdb, 0 Dart, 1164 GCC
+  >> 0 internal C++ namespace symbols: 0 objectbox, 0 std, 0 flatbuffers
+  >>      183 external symbols: 0 std namespace, 0 pthread
+  >> Exported C symbols: 360 obx, 40 obx_sync, 0 JNI, 0 lws, 0 mbedtls, 0 OPENSSL
+  >> 0 exported C++ namespace symbols: 0 objectbox, 0 std
+  >> Architectures: x86_64 arm64
+  >> SHA256: 8b86972d0cc853c56c82a774387d052f81bef52178470125ab1eb3df7fc90aba
