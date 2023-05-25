@@ -3,28 +3,28 @@
 This is the main repository for CADI AI - a desktop application for identifying disease, abiotic stress and pest infestations in cashew plants.
 
 ## Table of Contents
----
-    1. Introduction
-    2. Problem Statement
-    3. Project Description
-        a) Data Collection
-        b) Image Pre-processing
-        c) Annotation
-        d) Model Training
-        e) Software Development 
-    4. Contributing
-        a) Technologies & Tools
-        b) Workflow & Branch Rules
-        c) Issues
-        d) Support
-    5. Building the Software
-        a) Building for Windows
-        b) Building for MacOs X
-        c) Building for Linux
-    6. Assumptions?
-    7. Advantages and Use Cases 
-    8. Resources and Links
-    9. Conclusion
+* [Introduction](#introduction)
+* [Problem Statement](#problem-statement)
+* [Project Description](#project-description)
+  * [Data Collection](#data-collection)
+  * [Image Pre-processing](#image-pre-processing)
+  * [Annotation](#annotation)
+  * [Model Training](#model-training)
+  * [Software Development](#software-development)
+  * [Software Release and Deployment](#software-release-and-deployment)
+* [Contributing](#contributing)
+  * [Technologies & Tools](#technologies-&-tools)
+  * [Workflow & Branch Rules](#workflow-&-branch-rules)
+  * [Issues](#issues)
+  * [Support](#support)
+* [Building the Software](#building-the-software)
+  * [Building for Windows](#building-for-windows)
+  * [Building for MacOs X](#building-for-macos-x)
+  * [Building for Linux](#building-for-linux)
+* [Assumptions?](#assumptions?)
+* [Advantages and Use Cases](#advantages-and-use-cases)
+* [Resources and Links](#resources-and-links)
+* [Conclusion](#conclusion)
 
 
 ## Introduction
