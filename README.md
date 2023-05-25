@@ -166,7 +166,7 @@ There are some rules, though, that we believe must be observed in contributing t
 * ### Pull Requests
   To contribute to the project, follow the steps below:
 
-  1. Fork [karaagro/cadi-ai](https://github.com/karaagro/cadi-ai)
+  1. Fork [karaagro/cadi-ai](https://github.com/karaagro/cadi-ai). Uncheck the `Copy the main branch only` option to ensure you get the `dev` branch.
   1. Create a new branch from the `dev` branch in your forked repository.
       ```bash
       git checkout -b <branch-name> dev
