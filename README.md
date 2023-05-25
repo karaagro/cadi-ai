@@ -16,6 +16,7 @@ This is the main repository for CADI AI - a desktop application for identifying 
   * [Technologies & Tools](#technologies-&-tools)
   * [Workflow & Branch Rules](#workflow-&-branch-rules)
   * [Issues](#issues)
+  * [Pull Requests](#pull-requests)
   * [Support](#support)
 * [Building the Software](#building-the-software)
   * [Building for Windows](#building-for-windows)
@@ -28,7 +29,6 @@ This is the main repository for CADI AI - a desktop application for identifying 
 
 
 ## Introduction
----
 
 CADI AI - *Cashew Disease Identification with Artificial Intelligence* - is a demo-application that uses the technology Artificial Intelligence (AI). It looks at drone images of cashew trees and informs the user whether the Cashew tree suffers from:
  - pest infection, 
@@ -44,11 +44,9 @@ As with any application that uses AI:
 Please treat the results with caution because this system can produce wrong results. It is recommended to verify the diagnoses, for example, by seeking advice from a trained agronomist or extension officer before acting upon the diagnoses of the application. 
 
 ## Problem Statement
----
 [insert problem statement]
 
 ## Project Description
----
 * ### Data Collection
 [insert data collection @]
 * ### Image Pre-processing
@@ -125,7 +123,6 @@ Please treat the results with caution because this system can produce wrong resu
   Semantic version ([Semver](https://semver.org/)) is used to name each build. Latest builds are better and more robust and should be preferred over older builds.
 
 ## Contributing
----
 CADI AI was started as a private project with the goal of becoming open sourced. Now that it has been made available to the public, contributions are invited to fix issues and improve the application.
 
 There are some rules, though, that we believe must be observed in contributing to the application. Find more information on these rules and related ones below.
@@ -145,7 +142,7 @@ There are some rules, though, that we believe must be observed in contributing t
   5. Visual Studio Code (Recommended IDE)
   6. Xcode (Required only for MacOs X)
 * ### Workflow & Branch Rules
-  Semantic branch names and semantic commit messages are the format to be used for branches and commits to this repository.
+  [Semantic branch names](https://gist.github.com/seunggabi/87f8c722d35cd07deb3f649d45a31082) and [semantic commit messages](https://www.conventionalcommits.org/en/v1.0.0/)  are the format to be used for branches and commits to this repository.
   Anything else deviated from these standards would be rejected.
 
   *The branching workflow also follows the rules below:*
@@ -160,13 +157,29 @@ There are some rules, though, that we believe must be observed in contributing t
   The dev branch accepts pull requests (PR) for contributions. Code reviews are done against PR’s to the Dev branch
 
 * ### Issues
-  [insert issues standards @fuachie]
+  Before you submit an issue, please search the [issue tab](https://github.com/karaagro/cadi-ai/issues). An issue for your problem might already exist and reviewing the related discussions could provide valuable insights and solutions.
+
+  If you want to add improvements or suggest new features, you should first [create an issue](https://github.com/karaagro/cadi-ai/issues/new/choose). This will let us discuss and agree on the proposed changes before you start working on them. After the proposal is accepted, the [`accepted`](https://github.com/karaagro/cadi-ai/labels/accepted) label will be added to the issue and implementation can begin.
+
+  If you just want to fix a bug or typo, you can directly create a pull request with a clear description of the bug or typo you are fixing.
+
+* ### Pull Requests
+  To contribute to the project, follow the steps below:
+
+  1. Fork [karaagro/cadi-ai](https://github.com/karaagro/cadi-ai)
+  1. Create a new branch from the `dev` branch in your forked repository.
+      ```bash
+      git checkout -b <branch-name> dev
+      ```
+
+  1. Add your changes and commit them with a descriptive commit message.
+  1. Push your changes to github.
+  1. Create a pull request to the [`dev`](https://github.com/karaagro/cadi-ai/tree/dev) branch of [karaagro/cadi-ai](https://github.com/karaagro/cadi-ai) and request a review from [@atamino](https://github.com/atamino)
 
 * ### Support
   The team at KaraAgro AI will keep supporting the software indefinitely. We will be fixing issues,  making improvements and adding new features as and when they are needed.
 
 ## Building the Software
----
 Currently, CADI AI build process for *Windows* has been tried and tested. The process for *MacOs* also works but has some suspicious behaviour that we are investigating for now due to the use of python and the setup process not designed for *MacOs*.
 
 Below are the steps to build for Windows, MacOs or Linux:
@@ -231,15 +244,12 @@ Below are the steps to build for Windows, MacOs or Linux:
   Linux devices are not supported
 
 ## Assumptions
----
 [insert assumptions @harriet]
 
 ## Advantages and Use Cases
----
 [insert advantages and use cases @harrient]
 
 ## Resources and Links
----
 
 This project generated a lot of resources that are important for anyone looking to work with/on this project to take a look at.
 
