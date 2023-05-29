@@ -23,7 +23,6 @@ This is the main repository for CADI AI - a desktop application for identifying 
   * [Building for Windows](#building-for-windows)
   * [Building for MacOs X](#building-for-macos-x)
   * [Building for Linux](#building-for-linux)
-* [Assumptions](#assumptions)
 * [Advantages and Use Cases](#advantages-and-use-cases)
 * [Resources and Links](#resources-and-links)
 * [Conclusion](#conclusion)
@@ -32,9 +31,9 @@ This is the main repository for CADI AI - a desktop application for identifying 
 ## Introduction
 
 CADI AI - *Cashew Disease Identification with Artificial Intelligence* - is a demo-application that uses the technology Artificial Intelligence (AI). It looks at drone images of cashew trees and informs the user whether the Cashew tree suffers from:
- - pest infection, 
- - disease or 
- - abiotic stress. 
+ - pest infection - insect/pest stress factors represent the damage to crops by insects or pests
+ - disease - diseased factors represent attacks on crops by microorganisms
+ - abiotic stress - abiotic stress factors represent stress factors caused by non-living factors, e.g. environmental factors like weather or soil conditions or the lack of mineral nutrients to the crop. 
 
 [KaraAgro AI](https://www.karaagro.com/) developed CADI AI for the initiatives “Market-Oriented Value Chains for Jobs & Growth in the ECOWAS Region (MOVE/Comcashew)” and [FAIR Forward - Artificial Intelligence for All](https://toolkit-digitalisierung.de/en/fair-forward/). Both initiatives are implemented by the Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) on behalf of the German Federal Ministry for Economic Cooperation and Development (BMZ). 
     
@@ -45,14 +44,34 @@ As with any application that uses AI:
 Please treat the results with caution because this system can produce wrong results. It is recommended to verify the diagnoses, for example, by seeking advice from a trained agronomist or extension officer before acting upon the diagnoses of the application. 
 
 ## Problem Statement
-[insert problem statement]
+The threat of pests and diseases to the agricultural sector in Ghana is a constant concern, with climate change contributing to the potential for new and more damaging types of outbreaks (Yeboah et al., 2023). Based on multi-stakeholder engagements conducted by KaraAgro AI, also with women smallholder cashew farmers, stakeholders have identified pest and disease detection and yield estimation as critical concerns.
+
+However, the existing methods of identifying agricultural pest and disease outbreaks, such as land surveys and on-site observations by individuals, are limited in their effectiveness and efficiency. Thus, there is a need for more innovative and efficient solutions to improve the monitoring and management of crop health. This highlights a gap in the existing tools and resources, which can be addressed through the use of advanced technologies such as machine learning and image analysis.
+
+The creation of an open and accessible cashew dataset with well-labeled, curated, and prepared imagery and an artificial intelligence model and application software that exposes the model to users can be a valuable resource for data scientists, researchers, and social entrepreneurs to develop innovative solutions towards infield pest and disease detection and yield estimation, and through the use of the software, help farmers quickly identify problems in their cashew farms.
+
 
 ## Project Description
 * ### Data Collection
-[insert data collection @]
+  The data collection process was conducted at cashew farms in the Bono Region of Ghana. Two separate trips were made to the farms to accommodate seasonal variations for the diversity of the data. 
+
+  The collection process spanned six days in total. While more continuous data collection across various regions during the cashew blooming cycle could have been beneficial, we still consider the dataset to be sufficiently diverse. This is due to the inclusion of different maturity stages, camera angles, time of capture, and various types of stress morphology in the data collected. 
+
+  Dataset images were captured with the P4 multispectral drone at image resolution of 1600 x 1300 pixels. The images consist of close up shots and distant shots of the cashew plant abnormalities. The total number of images collected were 4,736.
 * ### Image Pre-processing
+  Preprocessing of the data involved removing crop images in which human figures or faces were accidentally captured. Also blurry images were deleted.
 * ### Annotation
+  The collected dataset annotation consisted of drawing bounding boxes on the collected images using MakeSense dataset annotation tool. The three classes that were annotated in the process include: 
+  - Disease
+  - Abiotic stress
+  - Pest infection
+
 * ### Model Training
+  YOLO v5X architecture was employed to construct the model. To enhance the image quality and facilitate efficient processing, the resolution of the images was adjusted to 640 pixels, while maintaining a batch size of 56. The resulting model achieved an mAP of 0.648 and a size of 173.1 MB.
+
+  ![](https://minohealth-storage.fra1.cdn.digitaloceanspaces.com/karaagro-giz/build-guide-images/val_batch2_pred.jpg)
+
+
 * ### Software Development
   `CADI AI` is a local flutter desktop application. It may require internet connection intermittently to refresh cached data. Otherwise, it is mostly local.
 
@@ -108,11 +127,22 @@ Please treat the results with caution because this system can produce wrong resu
 
   - `macos` and `windows` directories contain configuration files for MacOs and Windows respectively. Configurations like application icon and build targets when changed in Xcode are written directly to the `Podfile` in the `macos` directory.
 
-  **NB**:It is important to note that due to the  size of the trained cashew model as described in the `Model Training` section above, the total size of the project files exceeded the Github repository  file size limit.
+  > **Note**: Due to the  size of the trained cashew model as described in the `Model Training` section above, the total size of the project files exceeded the Github repository  file size limit.
 
   As a result, the model was not included in the repository. The model is rather available publicly on Hugging face. The link to the Hugging face repository can be found below in the `Resources & Links` section.
 
-    It is required that the model file be downloaded and added to the project on your local device before tests scan be run. If you run `flutter run` without the model file available in the project directory, you will not be able to run scans.
+  It is required that the model file be downloaded and added to the project on your local device before tests scan be run. If you run `flutter run` without the model file available in the project directory, you will not be able to run scans.
+
+  > **Note**: CADI AI only runs scans on images that are having GPS coordinates in their Exif metadata (Exchangeable Image Format). 
+
+    The Exif specifications define a pair of file types, mainly intended for recording technical details associated with digital photography [exif-format](https://www.loc.gov/preservation/digital/formats/fdd/fdd000146.shtml)
+
+    Exif is a metadata standard that defines formats for sharing metadata related to images, sound, and ancillary tags used by digital cameras, scanners and other systems that handle image recorded by digital cameras. 
+
+    In this case, it is required that images selected for scan in CADI AI must have metadata following the Exif standard, and must have GPS coordinates in their metadata before they can be scanned.
+
+    This is because the application shows location pins on a satellite map that enables farmers to locate the region of the farm where a disease, abiotic stress or pest is found present. Without GPS coordinates this would not be possible.
+
 
 * ### Software Release and Deployment
   CADI AI builds and releases are available on the repository.
@@ -129,16 +159,25 @@ CADI AI was started as a private project with the goal of becoming open sourced.
 There are some rules, though, that we believe must be observed in contributing to the application. Find more information on these rules and related ones below.
 
 * ### Technologies & Tools
-  CADI AI is a flutter-based local desktop application. The following technologies and tools are used in the development of the applicatioin. These technologies are also pre-requisite in order to contribute to the improvement of the application.
-  1. Flutter
+  CADI AI is a flutter-based local desktop application. The following technologies and tools are used in the development of the application. These technologies are also pre-requisite in order to contribute to the improvement of the application.
+  1. Flutter<=3.3.0
   2. Dart
   3. Isar Database
   4. GetX Controller
   3. Python 3.0 and later
   4. Python Libraries(
-    Flask,
-    ultralytics,
-    etc...
+    Flask=>2.3.2,
+    Flask-cors=>3.0.10,
+    ultralytics=>8.0.106,
+    torchvision=>0.15.2,
+    torch=>2.0.1,
+    opencv-python=>4.7.0.72,
+    pandas=>2.0.1,
+    psutil=>5.9.5,
+    pyyaml=>6.0,
+    tqdm=>4.65.0,
+    matplotlib=>3.7.1,
+    seaborn=>0.12.2
   )
   5. Visual Studio Code (Recommended IDE)
   6. Xcode (Required only for MacOs X)
@@ -247,11 +286,12 @@ Below are the steps to build for Windows, MacOs or Linux:
 * ### Building for Linux
   Linux devices are not supported
 
-## Assumptions
-[insert assumptions @harriet]
-
 ## Advantages and Use Cases
-[insert advantages and use cases @harrient]
+Some of the advantages and use cases of this project's dataset and the CADI AI software are listed below:
+
+  - This dataset can be extended by other Data Scientists to create powerful solutions for farmers
+  - The collected dataset was also utilized for an object detection task, where a model was trained to recognize areas affected by abiotic factors, diseases, and insect infestations of cashew fields. 
+  - CADI AI, the software, can be used by farmers to early detect disease, abiotic stress and pests in their farms
 
 ## Resources and Links
 
