@@ -18,11 +18,12 @@ This is the main repository for CADI AI - a desktop application for identifying 
   * [Issues](#issues)
   * [Pull Requests](#pull-requests)
   * [Support](#support)
-* [Building the Software](#building-the-software)
+* [Downloading CADI AI](#download-cadi-ai)
+* [Building a Custom CADI AI](#build-cadi-ai)
   * [Building for Windows](#building-for-windows)
   * [Building for MacOs X](#building-for-macos-x)
   * [Building for Linux](#building-for-linux)
-* [Assumptions?](#assumptions?)
+* [Assumptions](#assumptions)
 * [Advantages and Use Cases](#advantages-and-use-cases)
 * [Resources and Links](#resources-and-links)
 * [Conclusion](#conclusion)
@@ -116,11 +117,11 @@ Please treat the results with caution because this system can produce wrong resu
 * ### Software Release and Deployment
   CADI AI builds and releases are available on the repository.
 
-  The application is built into a Windows msi package and uploaded with a tag to the repository. Builds for MacOs are also available. There is currently no support Linux devices and no future plans to support them.
+  The application is built into a Windows msi package and uploaded with a tag to the repository. Builds for MacOs are also available. There is currently no support for Linux Systems and no future plans to support them.
 
   At the right side panel on the CADI AI repository, releases with tags can be found and can be downloaded and installed on users' devices.
 
-  Semantic version ([Semver](https://semver.org/)) is used to name each build. Latest builds are better and more robust and should be preferred over older builds.
+  Semantic versioning ([Semver](https://semver.org/)) is used to name each build. Latest builds are better and more robust and should be preferred over older builds.
 
 ## Contributing
 CADI AI was started as a private project with the goal of becoming open sourced. Now that it has been made available to the public, contributions are invited to fix issues and improve the application.
@@ -179,7 +180,10 @@ There are some rules, though, that we believe must be observed in contributing t
 * ### Support
   The team at KaraAgro AI will keep supporting the software indefinitely. We will be fixing issues,  making improvements and adding new features as and when they are needed.
 
-## Building the Software
+## Download CADI AI
+Newer and older releases of CADI AI can be downloaed at the [releases](https://github.com/karaagro/cadi-ai/releases) section of the repository.
+
+## Build CADI AI
 Currently, CADI AI build process for *Windows* has been tried and tested. The process for *MacOs* also works but has some suspicious behaviour that we are investigating for now due to the use of python and the setup process not designed for *MacOs*.
 
 Below are the steps to build for Windows, MacOs or Linux:
