@@ -138,7 +138,8 @@ class _SetupState extends State<Setup> {
       'pyyaml',
       'tqdm',
       'matplotlib',
-      'seaborn'
+      'seaborn',
+      'ultralytics'
     ];
 
     final installedLibs = <String, bool>{};
