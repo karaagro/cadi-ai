@@ -1,6 +1,6 @@
 # CADI AI - Cashew Disease Identification with Artificial Intelligence
 
-This is the main repository for CADI AI - a desktop application for identifying disease, abiotic stress and pest infestations in cashew plants.
+This is the main repository for CADI AI, a desktop application for identifying disease, abiotic stress and pest infestations in cashew plants.
 
 ## Table of Contents
 * [Introduction](#introduction)
@@ -30,26 +30,25 @@ This is the main repository for CADI AI - a desktop application for identifying 
 
 ## Introduction
 
-CADI AI - *Cashew Disease Identification with Artificial Intelligence* - is a demo-application that uses the technology Artificial Intelligence (AI). It looks at drone images of cashew trees and informs the user whether the Cashew tree suffers from:
- - pest infection - insect/pest stress factors represent the damage to crops by insects or pests
- - disease - diseased factors represent attacks on crops by microorganisms
- - abiotic stress - abiotic stress factors represent stress factors caused by non-living factors, e.g. environmental factors like weather or soil conditions or the lack of mineral nutrients to the crop. 
+CADI AI - *Cashew Disease Identification with Artificial Intelligence* - is a demo-application that uses the technology Artificial Intelligence (AI). It looks at drone images of cashew trees and informs users whether the Cashew tree suffers from:
+ - pest infection, i.e. damage to crops by insects or pests
+ - disease, i.e. attacks on crops by microorganisms
+ - abiotic stress caused by non-living factors (e.g. environmental factors like weather or soil conditions or the lack of mineral nutrients to the crop).
 
-[KaraAgro AI](https://www.karaagro.com/) developed CADI AI for the initiatives “Market-Oriented Value Chains for Jobs & Growth in the ECOWAS Region (MOVE/Comcashew)” and [FAIR Forward - Artificial Intelligence for All](https://toolkit-digitalisierung.de/en/fair-forward/). Both initiatives are implemented by the Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) on behalf of the German Federal Ministry for Economic Cooperation and Development (BMZ). 
+CADI AI shall support farmers as an early warning system to quickly identify problems in their cashew farms and to keep their crops healthier and more yielding. 
+[KaraAgro AI](https://www.karaagro.com/) developed CADI AI for the initiatives “[Market-Oriented Value Chains for Jobs & Growth in the ECOWAS Region (MOVE/Comcashew)](https://www.giz.de/en/worldwide/108524.html)” and [FAIR Forward - Artificial Intelligence for All](https://toolkit-digitalisierung.de/en/fair-forward/). Both initiatives are implemented by the Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) on behalf of the German Federal Ministry for Economic Cooperation and Development (BMZ). 
     
-CADI AI shall support farmers as an early warning system to quickly identify problems in their cashew farms and to keep their crops healthier and more yielding.
-Please note that the application will not tell you which particular disease or pest a cashew tree suffers from or how to treat it. 
+CADI AI is based on the following resources: 
+* Drone-based dataset on cashews, available via [Kaggle](https://www.kaggle.com/datasets/karaagroaiprojects/cadi-ai) and [HuggingFace](https://huggingface.co/datasets/KaraAgroAI/CADI-AI), incl. an accompanying [datasheet](https://docs.google.com/document/d/1ox23J2ti8-jVsQODw3SqEAVj2sszHSswS3bmcdwW7Y8/edit?usp=sharing)
+* AI model to identify health conditions of cashew trees, available via [HuggingFace](https://huggingface.co/KaraAgroAI/CADI-AI)
+* The CADI AI demo-application available via the [release section](https://github.com/karaagro/cadi-ai/releases) of this repository.
 
-As with any application that uses AI: 
-Please treat the results with caution because this system can produce wrong results. It is recommended to verify the diagnoses, for example, by seeking advice from a trained agronomist or extension officer before acting upon the diagnoses of the application. 
+All resources are available under open-source licenses to provide data scientists, researchers, and social entrepreneurs to develop innovative solutions towards infield pest and disease detection 
 
 ## Problem Statement
 The threat of pests and diseases to the agricultural sector in Ghana is a constant concern, with climate change contributing to the potential for new and more damaging types of outbreaks (Yeboah et al., 2023). Based on multi-stakeholder engagements conducted by KaraAgro AI, also with women smallholder cashew farmers, stakeholders have identified pest and disease detection and yield estimation as critical concerns.
 
-However, the existing methods of identifying agricultural pest and disease outbreaks, such as land surveys and on-site observations by individuals, are limited in their effectiveness and efficiency. Thus, there is a need for more innovative and efficient solutions to improve the monitoring and management of crop health. This highlights a gap in the existing tools and resources, which can be addressed through the use of advanced technologies such as machine learning and image analysis.
-
-The creation of an open and accessible cashew dataset with well-labeled, curated, and prepared imagery and an artificial intelligence model and application software that exposes the model to users can be a valuable resource for data scientists, researchers, and social entrepreneurs to develop innovative solutions towards infield pest and disease detection and yield estimation, and through the use of the software, help farmers quickly identify problems in their cashew farms.
-
+However, the existing methods of identifying agricultural pest and disease outbreaks, such as land surveys and on-site observations by individuals, are limited in their effectiveness and efficiency. Thus, there is a need for more innovative and efficient solutions to improve the monitoring and management of crop health. This highlights a gap in the existing tools and resources, which can be addressed through the use of technologies such as machine learning and image analysis.
 
 ## Project Description
 * ### Data Collection
