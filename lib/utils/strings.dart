@@ -32,5 +32,5 @@ An output of 0.68 for a crop stress means that the system is 68% confident that 
 
 // ignore: constant_identifier_names
 const SCANNING_REQUIREMENTS = """
-CADI AI supports only jpeg images taken from drones. Images from other sources must have geo-coordinates on them before inferencing can be done otherwise, they will be ignored.
+CADI AI supports only JPEG images taken from drones. Images from other sources must have geo-coordinates in their metadata; otherwise, they will be ignored.
 """;

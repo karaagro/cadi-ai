@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cadi_ai/controllers/MainController.dart';
-import 'package:cadi_ai/Pages/HistoryListTabView.dart';
-import 'package:cadi_ai/Pages/HistoryEdit.dart';
-import 'package:cadi_ai/Pages/HistoryList.dart';
+import 'package:cadi_ai/pages/HistoryListTabView.dart';
+import 'package:cadi_ai/pages/HistoryEdit.dart';
+import 'package:cadi_ai/pages/HistoryList.dart';
 import 'package:cadi_ai/widgets/input_fields.dart';
-import 'package:cadi_ai/Utils/rate_limitters.dart' as rate_limitters;
+import 'package:cadi_ai/utils/rate_limitters.dart' as rate_limitters;
 
 class HistoryLayout extends StatefulWidget {
   const HistoryLayout({Key? key}) : super(key: key);

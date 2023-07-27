@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:cadi_ai/controllers/MainController.dart';
-import 'package:cadi_ai/Utils/helpers.dart';
+import 'package:cadi_ai/utils/helpers.dart';
 import 'package:cadi_ai/adapters/database_adapter.dart';
 import 'package:cadi_ai/entities/image.dart' as isarImage;
 import 'package:cadi_ai/services/isar_services.dart';

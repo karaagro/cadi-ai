@@ -1,6 +1,6 @@
 import 'package:cadi_ai/utils/config.dart';
 import 'package:flutter/material.dart';
-import 'package:cadi_ai/Utils/strings.dart';
+import 'package:cadi_ai/utils/strings.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class AboutLayout extends StatefulWidget {

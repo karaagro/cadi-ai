@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cadi_ai/controllers/MainController.dart';
-import 'package:cadi_ai/Utils/helpers.dart';
+import 'package:cadi_ai/utils/helpers.dart';
 import 'package:cadi_ai/adapters/database_adapter.dart';
 import 'package:cadi_ai/entities/appstate.dart';
 import 'package:cadi_ai/entities/history.dart';

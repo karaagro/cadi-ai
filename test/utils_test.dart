@@ -1,5 +1,5 @@
-import 'package:cadi_ai/Utils/helpers.dart';
-import 'package:cadi_ai/Utils/config.dart';
+import 'package:cadi_ai/utils/helpers.dart';
+import 'package:cadi_ai/utils/config.dart';
 import 'package:cadi_ai/entities/history.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'dart:io';
