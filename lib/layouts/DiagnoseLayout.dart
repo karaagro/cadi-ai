@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cadi_ai/controllers/MainController.dart';
-import 'package:cadi_ai/Pages/DiagnosisForm.dart';
+import 'package:cadi_ai/pages/DiagnosisForm.dart';
 
 class DiagnoseLayout extends StatelessWidget {
   const DiagnoseLayout({

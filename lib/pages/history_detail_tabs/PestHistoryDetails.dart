@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cadi_ai/controllers/MainController.dart';
-import 'package:cadi_ai/Pages/MapDisplay.dart';
-import 'package:cadi_ai/Utils/helpers.dart';
+import 'package:cadi_ai/pages/MapDisplay.dart';
+import 'package:cadi_ai/utils/helpers.dart';
 import 'package:cadi_ai/widgets/HistoryImageCardsList.dart';
 
 class PestHistoryDetails extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:cadi_ai/controllers/MainController.dart';
-import 'package:cadi_ai/Pages/MapDisplay.dart';
+import 'package:cadi_ai/pages/MapDisplay.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/instance_manager.dart';
 
