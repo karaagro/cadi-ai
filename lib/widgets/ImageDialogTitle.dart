@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cadi_ai/Utils/strings.dart';
+import 'package:cadi_ai/utils/strings.dart';
 
 class ImageDialogTitle extends StatelessWidget {
   const ImageDialogTitle({

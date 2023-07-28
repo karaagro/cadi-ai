@@ -1,8 +1,9 @@
 import 'dart:io';
+import 'package:cadi_ai/layouts/HomeLayout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cadi_ai/controllers/SetupController.dart';
-import 'package:cadi_ai/Pages/Setup/Setup.dart';
+import 'package:cadi_ai/pages/setup/Setup.dart';
 import 'package:cadi_ai/Utils/PageRoutes.dart';
 
 class ConfirmSetup extends StatelessWidget {
@@ -53,7 +54,9 @@ class ConfirmSetup extends StatelessWidget {
                                 Expanded(
                                   child: OutlinedButton(
                                     onPressed: () {
-                                      exit(0);
+                                      // exit(0);
+                                      Get.offAndToNamed(
+                                          PageRoutes.HOME_PAGE.name);
                                     },
                                     style: OutlinedButton.styleFrom(
                                       side:

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:cadi_ai/layouts/HomeLayout.dart';
 import 'package:cadi_ai/layouts/SetupLayout.dart';
-import 'package:cadi_ai/Utils/PageRoutes.dart';
+import 'package:cadi_ai/utils/PageRoutes.dart';
 
 class Pages {
   static final pageList = [

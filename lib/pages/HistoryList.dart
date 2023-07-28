@@ -1,6 +1,7 @@
+import 'package:cadi_ai/controllers/MainController.dart';
+import 'package:cadi_ai/widgets/snackbars.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:cadi_ai/controllers/MainController.dart';
 import 'package:cadi_ai/entities/history.dart';
 import 'package:cadi_ai/services/isar_services.dart';
 
@@ -32,6 +33,48 @@ class HistoryList extends StatelessWidget {
       MainController controller, History history) async {
     controller.updateSelectedHistory(history);
     controller.updateHistoryStackIndex(2);
+  }
+
+  onDeleteHistoryItemSelected(
+      BuildContext context, MainController controller, History history) {
+    Widget cancelButton = TextButton(
+      child: const Text("Cancel", style: TextStyle(color: Colors.amber)),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: const Text("Delete", style: TextStyle(color: Colors.amber)),
+      onPressed: () async {
+        try {
+          await isarService.deleteScan(history);
+          controller.updateApplicationState();
+          // ignore: use_build_context_synchronously
+          Navigator.pop(context);
+        } catch (e) {
+          showSimpleSnackBar(
+              context: context,
+              message: "Failed to delete scan",
+              bgColor: Colors.red);
+        }
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      title: const Text("Delete"),
+      content: const Text(
+          "Are you sure you want to delete this scan?\nThis operation is not reversible"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   List<History> _getFilteredHistory(List<History> historys) {
@@ -174,7 +217,19 @@ class HistoryList extends StatelessWidget {
                                           onEditHistoryItemSelected(controller,
                                               filterdHistory[reverseIndex]);
                                         },
-                                        icon: const Icon(Icons.edit))
+                                        icon: const Icon(Icons.edit)),
+                                    Container(
+                                      width: 20,
+                                    ),
+                                    IconButton(
+                                        tooltip: 'Delete',
+                                        onPressed: () {
+                                          onDeleteHistoryItemSelected(
+                                              context,
+                                              controller,
+                                              filterdHistory[reverseIndex]);
+                                        },
+                                        icon: const Icon(Icons.delete)),
                                   ],
                                 )
                               ],

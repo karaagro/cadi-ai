@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:cadi_ai/themes/app_theme.dart';
 import 'package:cadi_ai/Utils/PageInits.dart';
 import 'package:cadi_ai/Utils/PageRoutes.dart';
-import 'Utils/controller_bindings.dart';
+import 'utils/controller_bindings.dart';
 
 void main() {
   runApp(const App());

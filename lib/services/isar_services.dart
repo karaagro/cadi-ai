@@ -37,10 +37,10 @@ class IsarServices extends DatabaseAdapter {
         scanHistory..id = await isarLocal.historys.put(scanHistory));
   }
 
-  Future<void> deleteScan() async {
+  Future<void> deleteScan(History scanHistory) async {
     final isar = await db;
-    await isar
-        .writeTxn((isar) async => await isar.historys.where().deleteAll());
+    await isar.writeTxn((isar) async => await isar.historys
+      ..where().filter().idEqualTo(scanHistory.id!).deleteFirst());
   }
 
   @override

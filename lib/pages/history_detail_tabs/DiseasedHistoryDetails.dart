@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cadi_ai/controllers/MainController.dart';
-import 'package:cadi_ai/Pages/MapDisplay.dart';
-import 'package:cadi_ai/Utils/helpers.dart';
+import 'package:cadi_ai/pages/MapDisplay.dart';
+import 'package:cadi_ai/utils/helpers.dart';
 import 'package:cadi_ai/widgets/HistoryImageCardsList.dart';
 
-class AbioticHistoryDetails extends StatefulWidget {
-  const AbioticHistoryDetails({
+class DiseasedHistoryDetails extends StatefulWidget {
+  const DiseasedHistoryDetails({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<AbioticHistoryDetails> createState() => _AbioticHistoryDetailsState();
+  State<DiseasedHistoryDetails> createState() => _DiseasedHistoryDetailsState();
 }
 
-class _AbioticHistoryDetailsState extends State<AbioticHistoryDetails> {
+class _DiseasedHistoryDetailsState extends State<DiseasedHistoryDetails> {
   int historyFlex = 100;
   int mapFlex = 200;
   int scale = 0;
@@ -27,7 +27,7 @@ class _AbioticHistoryDetailsState extends State<AbioticHistoryDetails> {
                 Expanded(
                     flex: historyFlex,
                     child: HistoryImageCardsList(
-                      classFilter: ABIOTIC_FILTER,
+                      classFilter: DISEASED_FILTER,
                       scale: scale,
                     )),
                 MouseRegion(

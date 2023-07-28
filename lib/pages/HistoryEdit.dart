@@ -43,7 +43,7 @@ class _HistoryEditState extends State<HistoryEdit> {
         } catch (e) {
           showSimpleSnackBar(
               context: context,
-              message: "failed to delete images",
+              message: "Failed to delete images",
               bgColor: Colors.red);
         }
       },
@@ -92,9 +92,9 @@ class _HistoryEditState extends State<HistoryEdit> {
                                         width: 150,
                                         height: 35,
                                         child: TextField(
-                                          style: TextStyle(fontSize: 14),
+                                          style: const TextStyle(fontSize: 14),
                                           controller: myController,
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             border: OutlineInputBorder(),
                                             contentPadding:
                                                 EdgeInsets.symmetric(
@@ -104,7 +104,7 @@ class _HistoryEditState extends State<HistoryEdit> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       TextButton(
@@ -122,7 +122,6 @@ class _HistoryEditState extends State<HistoryEdit> {
                                         onPressed: () {
                                           setState(() {
                                             editName = false;
-                                            print(myController.text);
                                             // Update Scan name
                                             var history = controller
                                                 .appState.selectedHistory;
@@ -149,7 +148,7 @@ class _HistoryEditState extends State<HistoryEdit> {
                                             fontSize: 20,
                                             fontWeight: FontWeight.w100),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       IconButton(
@@ -162,7 +161,7 @@ class _HistoryEditState extends State<HistoryEdit> {
                                               editName = true;
                                             });
                                           },
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.edit,
                                             size: 20,
                                           )),

@@ -10,14 +10,14 @@ import 'package:cadi_ai/layouts/HomeLayout.dart';
 import 'package:cadi_ai/controllers/MainController.dart';
 import 'package:cadi_ai/layouts/DiagnoseLayout.dart';
 import 'package:cadi_ai/layouts/HistoryLayout.dart';
-import 'package:cadi_ai/Utils/internet_connectivity_checker.dart';
+import 'package:cadi_ai/utils/internet_connectivity_checker.dart';
 import 'package:cadi_ai/entities/history.dart';
 import 'package:cadi_ai/entities/image.dart';
 import 'package:cadi_ai/services/ai_services.dart';
 import 'package:cadi_ai/services/isar_services.dart';
 import 'package:cadi_ai/widgets/MenuItem.dart';
 import 'package:cadi_ai/widgets/snackbars.dart';
-import 'package:cadi_ai/Utils/PageRoutes.dart';
+import 'package:cadi_ai/utils/PageRoutes.dart';
 import 'package:cadi_ai/entities/settings.dart';
 
 class HomeLayoutState extends State<HomeLayout>
