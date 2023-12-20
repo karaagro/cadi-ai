@@ -63,7 +63,7 @@ class _SetupState extends State<Setup> {
       step = "Start python installation...";
     });
     try {
-      final result = await Process.run('python', ['--version']);
+      final result = await Process.run('Python310\\python.exe', ['--version']);
       if (result.exitCode == 0) {
         if (kDebugMode) {
           print('Python is already installed.');
@@ -87,8 +87,18 @@ class _SetupState extends State<Setup> {
     setState(() {
       step = "Installing python...";
     });
-    final process = await Process.start('python-installer.exe',
-        ['/quiet', 'InstallAllUsers=1', 'PrependPath=1']);
+    final currentDirectory = Directory.current.path;
+
+    final process = await Process.start(
+      'python-installer.exe',
+      [
+        '/quiet',
+        'InstallAllUsers=1',
+        'Include_test=0',
+        'TargetDir=$currentDirectory\\Python310'
+      ],
+    );
+
     process.stdout.transform(utf8.decoder).listen((data) {
       if (kDebugMode) {
         print(data);
@@ -144,7 +154,10 @@ class _SetupState extends State<Setup> {
 
     final installedLibs = <String, bool>{};
     for (final lib in libs) {
-      final process = await Process.start('pip', ['show', lib]);
+      final process = await Process.start(
+        'Python310\\python.exe',
+        ['-m', 'pip', 'show', lib],
+      );
       process.stdout.listen((data) {
         if (kDebugMode) {
           print(utf8.decode(data));
@@ -177,7 +190,10 @@ class _SetupState extends State<Setup> {
       return;
     }
 
-    final process = await Process.start('pip', ['install', ...libsToInstall]);
+    final process = await Process.start(
+      'Python310\\python.exe',
+      ['-m', 'pip', 'install', ...libsToInstall],
+    );
     process.stdout.transform(utf8.decoder).listen((data) {
       if (kDebugMode) {
         print(data);

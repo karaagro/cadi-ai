@@ -149,7 +149,11 @@ class HomeLayoutState extends State<HomeLayout>
       return "python3";
     }
     // return default device: Windows
-    return "python";
+    else if (Platform.isWindows) {
+      return "Python310\\python.exe";
+    } else {
+      return "python";
+    }
   }
 
   Future<List<History>> readScanHistory() async {
