@@ -20,6 +20,7 @@ class IsarServices extends DatabaseAdapter {
   Future<Isar> openDB() async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String appDocPath = appDocDir.path;
+    print(appDocDir);
     if (Isar.instanceNames.isEmpty) {
       return await Isar.open(
           schemas: [HistorySchema, ImageSchema, SettingsSchema],
