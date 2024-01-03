@@ -91,6 +91,7 @@ class HomeLayoutState extends State<HomeLayout>
     );
 
     final setting = await isarService.getSettingByKey('setUpComplete');
+    print(setting);
     if (setting == null) {
       await isarService.addSetting(Settings()
         ..key = 'setUpComplete'
@@ -104,8 +105,8 @@ class HomeLayoutState extends State<HomeLayout>
   }
 
   void startAIService() async {
-    final process =
-        await Process.start(getDeviceSpecificPython(), ['-m', 'flask', 'run']);
+    final process = await Process.start(
+        await getDeviceSpecificPython(), ['-m', 'flask', 'run']);
     process.stdout.transform(utf8.decoder).listen((data) {
       if (kDebugMode) {
         print('stdout: $data');
@@ -144,13 +145,15 @@ class HomeLayoutState extends State<HomeLayout>
     });
   }
 
-  String getDeviceSpecificPython() {
+  Future<String> getDeviceSpecificPython() async {
     if (Platform.isMacOS) {
       return "python3";
     }
     // return default device: Windows
     else if (Platform.isWindows) {
-      return "Python310\\python.exe";
+      final setting = await isarService.getSettingByKey('pythonCommand');
+      final pythonCommand = setting.value;
+      return pythonCommand;
     } else {
       return "python";
     }
