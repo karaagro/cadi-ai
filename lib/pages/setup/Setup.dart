@@ -113,28 +113,10 @@ class _SetupState extends State<Setup> {
             progress += 1;
           });
           await installPythonLibs();
-        } else {
           return;
         }
       }
-
-      // final result = await Process.run('Python310\\python.exe', ['--version']);
-      // if (result.exitCode == 0) {
-      //   if (kDebugMode) {
-      //     print('Python is already installed.');
-      //     print(result.stdout);
-      //   }
-      //   setState(() {
-      //     step = "Python is already installed.";
-      //   });
-      //   setState(() {
-      //     progress += 1;
-      //   });
-      //   installPythonLibs();
-      //   return;
-      // }
     } catch (e) {
-      print("Error");
       print(e);
     }
     // Download and run the Python installer
