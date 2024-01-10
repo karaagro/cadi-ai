@@ -8,6 +8,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:cadi_ai/controllers/SetupController.dart';
 import 'package:cadi_ai/entities/settings.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Setup extends StatefulWidget {
   const Setup({super.key});
@@ -99,12 +100,15 @@ class _SetupState extends State<Setup> {
         await installPythonLibs();
         return;
       } else {
+        Directory appDocDir = await getApplicationDocumentsDirectory();
+        String appDocPath = appDocDir.path;
+
         final pythonInstallation2 =
-            await checkPythonInstallation('Python310\\python.exe');
+            await checkPythonInstallation('$appDocPath\\Python310\\python.exe');
         if (pythonInstallation2) {
           await isarServices.addSetting(Settings()
             ..key = 'pythonCommand'
-            ..value = 'Python310\\python.exe');
+            ..value = '$appDocPath\\Python310\\python.exe');
 
           setState(() {
             step = "Python is already installed.";
@@ -126,7 +130,9 @@ class _SetupState extends State<Setup> {
     setState(() {
       step = "Installing python...";
     });
-    final currentDirectory = Directory.current.path;
+
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
 
     final process = await Process.start(
       'python-installer.exe',
@@ -134,7 +140,7 @@ class _SetupState extends State<Setup> {
         '/quiet',
         'InstallAllUsers=1',
         'Include_test=0',
-        'TargetDir=$currentDirectory\\Python310'
+        'TargetDir=$appDocPath\\Python310'
       ],
     );
 
@@ -159,7 +165,7 @@ class _SetupState extends State<Setup> {
       });
       await isarServices.addSetting(Settings()
         ..key = 'pythonCommand'
-        ..value = 'Python310\\python.exe');
+        ..value = '$appDocPath\\Python310\\python.exe');
       showAlertDialog(context);
     } else {
       if (kDebugMode) {
