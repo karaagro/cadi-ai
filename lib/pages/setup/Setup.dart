@@ -7,6 +7,8 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:cadi_ai/controllers/SetupController.dart';
+import 'package:cadi_ai/entities/settings.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Setup extends StatefulWidget {
   const Setup({super.key});
@@ -51,6 +53,26 @@ class _SetupState extends State<Setup> {
     );
   }
 
+  bool validatePythonVersion(String versionOutput) {
+    List<String> spaceSplit = versionOutput.split(' ');
+
+    List<String> version = spaceSplit[1].split('.');
+
+    if (version[0] == '3' && int.parse(version[1]) <= 10) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> checkPythonInstallation(String command) async {
+    final result = await Process.run(command, ['--version']);
+    if (result.exitCode == 0 && validatePythonVersion(result.stdout)) {
+      return true;
+    }
+    return false;
+  }
+
   Future<void> installPythonWindows() async {
     // Check if Python is already installed
     if (kDebugMode) {
@@ -63,19 +85,40 @@ class _SetupState extends State<Setup> {
       step = "Start python installation...";
     });
     try {
-      final result = await Process.run('Python310\\python.exe', ['--version']);
-      if (result.exitCode == 0) {
-        if (kDebugMode) {
-          print('Python is already installed.');
-        }
+      final pythonInstallation1 = await checkPythonInstallation('python');
+      if (pythonInstallation1) {
+        await isarServices.addSetting(Settings()
+          ..key = 'pythonCommand'
+          ..value = 'python');
+
         setState(() {
           step = "Python is already installed.";
         });
         setState(() {
           progress += 1;
         });
-        installPythonLibs();
+        await installPythonLibs();
         return;
+      } else {
+        Directory appDocDir = await getApplicationDocumentsDirectory();
+        String appDocPath = appDocDir.path;
+
+        final pythonInstallation2 =
+            await checkPythonInstallation('$appDocPath\\Python310\\python.exe');
+        if (pythonInstallation2) {
+          await isarServices.addSetting(Settings()
+            ..key = 'pythonCommand'
+            ..value = '$appDocPath\\Python310\\python.exe');
+
+          setState(() {
+            step = "Python is already installed.";
+          });
+          setState(() {
+            progress += 1;
+          });
+          await installPythonLibs();
+          return;
+        }
       }
     } catch (e) {
       print(e);
@@ -87,7 +130,9 @@ class _SetupState extends State<Setup> {
     setState(() {
       step = "Installing python...";
     });
-    final currentDirectory = Directory.current.path;
+
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
 
     final process = await Process.start(
       'python-installer.exe',
@@ -95,7 +140,7 @@ class _SetupState extends State<Setup> {
         '/quiet',
         'InstallAllUsers=1',
         'Include_test=0',
-        'TargetDir=$currentDirectory\\Python310'
+        'TargetDir=$appDocPath\\Python310'
       ],
     );
 
@@ -118,6 +163,9 @@ class _SetupState extends State<Setup> {
         step = "Python has been installed successfully.";
         progress += 1;
       });
+      await isarServices.addSetting(Settings()
+        ..key = 'pythonCommand'
+        ..value = '$appDocPath\\Python310\\python.exe');
       showAlertDialog(context);
     } else {
       if (kDebugMode) {
@@ -127,6 +175,9 @@ class _SetupState extends State<Setup> {
   }
 
   Future<void> installPythonLibs() async {
+    final setting = await isarServices.getSettingByKey('pythonCommand');
+    final pythonCommand = setting.value;
+    // final pythonCommand = 'python';
     if (kDebugMode) {
       print("installing Python libs...");
     }
@@ -155,7 +206,7 @@ class _SetupState extends State<Setup> {
     final installedLibs = <String, bool>{};
     for (final lib in libs) {
       final process = await Process.start(
-        'Python310\\python.exe',
+        pythonCommand,
         ['-m', 'pip', 'show', lib],
       );
       process.stdout.listen((data) {
@@ -191,7 +242,7 @@ class _SetupState extends State<Setup> {
     }
 
     final process = await Process.start(
-      'Python310\\python.exe',
+      pythonCommand,
       ['-m', 'pip', 'install', ...libsToInstall],
     );
     process.stdout.transform(utf8.decoder).listen((data) {
