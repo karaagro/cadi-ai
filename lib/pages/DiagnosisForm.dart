@@ -19,6 +19,7 @@ import 'package:cadi_ai/services/isar_services.dart';
 import 'package:cadi_ai/widgets/ScanProgress.dart';
 import 'package:cadi_ai/widgets/snackbars.dart';
 import 'package:cadi_ai/widgets/testAnimation.dart';
+import 'package:toastification/toastification.dart';
 
 class NewDiagnoseForm extends StatefulWidget {
   const NewDiagnoseForm({
@@ -103,11 +104,15 @@ class _NewDiagnoseFormState extends State<NewDiagnoseForm> {
     } catch (error) {
       setDiagnosingFalse();
       Navigator.pop(context);
-      showSimpleSnackBar(
-          context: context,
-          message:
-              "Scan failed due to inability to reach AI service. Restart the application and try again",
-          bgColor: Colors.red);
+      toastification.show(
+        context: context,
+        title: const Text(
+          'Scan failed due to inability to reach AI service. Restart and try again.',
+        ),
+        type: ToastificationType.error,
+        style: ToastificationStyle.fillColored,
+        autoCloseDuration: const Duration(seconds: 5),
+      );
     }
   }
 
@@ -220,9 +225,16 @@ class _NewDiagnoseFormState extends State<NewDiagnoseForm> {
   }
 
   void cleanupAndRouteToHistory(MainController controller) {
+    // Update global state counters
     controller.appState.totalCleanImageScans = totalCleanImageScans;
     controller.appState.totalFailedImageScans = totalFailedImageScans;
 
+    // Determine if every scanned image had no detected conditions
+    final bool allImagesClean =
+        totalCleanImageScans == controller.filesDropped.length &&
+            totalFailedImageScans == 0;
+
+    // Reset state for next scan
     totalFailedImageScans = 0;
     totalCleanImageScans = 0;
     textAreaController.clear();
@@ -231,7 +243,20 @@ class _NewDiagnoseFormState extends State<NewDiagnoseForm> {
     controller.updateApplicationState();
     controller.updateSelectedFilesList([]);
 
+    // Navigate to History page
     controller.updateSideMenuStackIndex(1);
+
+    // Notify user about the result
+    toastification.show(
+      context: context,
+      title: allImagesClean
+          ? const Text(
+              'Great news! No crop stress detected \u2014 your farm is clean.')
+          : const Text('Scan complete! Navigated to history.'),
+      type: ToastificationType.success,
+      style: ToastificationStyle.fillColored,
+      autoCloseDuration: const Duration(seconds: 5),
+    );
   }
 
   void deleteScanImageAt(Directory directoryToDelete) {
@@ -248,130 +273,132 @@ class _NewDiagnoseFormState extends State<NewDiagnoseForm> {
   Widget build(BuildContext context) {
     return GetBuilder(
       builder: (MainController controller) => Scaffold(
-        body: Container(
-          alignment: Alignment.center,
-          child: SizedBox(
-            height: 650,
-            width: 600,
-            child: Card(
-              shadowColor: Colors.black54,
-              elevation: 40,
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                const Divider(
-                  height: 80,
-                  color: Colors.transparent,
-                ),
-                SizedBox(
-                  height: 70,
-                  width: 400,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Title'),
-                      const Spacer(),
-                      TextFormField(
-                        controller: textAreaController,
-                        onChanged: (value) {
-                          controller.appState.scanName = value;
-                          controller.updateApplicationState();
-                        },
-                        cursorColor: Colors.amber,
-                        decoration: const InputDecoration(
-                            filled: true,
-                            isDense: true,
-                            hintText: 'Enter title of this scan',
-                            border: OutlineInputBorder(
-                                gapPadding: 0,
-                                borderSide: BorderSide(
-                                    style: BorderStyle.none, width: 0))),
-                      ),
-                    ],
-                  ),
-                ),
-                const Divider(
-                  height: 40,
-                  color: Colors.transparent,
-                ),
-                diagnosing
-                    ? ScanProgress(
-                        percentage: calculateProgress(
-                            controller.filesDropped.length, totalImagesToScan))
-                    : const filePicker(),
-                const Divider(
-                  height: 40,
-                  color: Colors.transparent,
-                ),
-                Text(
-                  '${controller.filesDropped.length} images uploaded',
-                  style: const TextStyle(fontSize: 20),
-                ),
-                const Divider(
-                  height: 40,
-                  color: Colors.transparent,
-                ),
-                SizedBox(
-                  width: 300,
-                  child: MouseRegion(
-                      cursor: controller.appState.isServerOnline
-                          ? SystemMouseCursors.click
-                          : SystemMouseCursors.basic,
-                      onHover: controller.appState.isServerOnline
-                          ? (event) {}
-                          : null,
-                      child: ElevatedButton(
-                          onPressed: isAllReadyForScan(controller)
-                              ? () => checkReadyAndDoScan(controller)
-                              : null,
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                isAllReadyForScan(controller)
-                                    ? Colors.amber
-                                    : Colors.grey),
-                          ),
-                          child: const Text('Scan'))),
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                controller.appState.isServerOnline
-                    ? const Text(
-                        "Service is online",
-                        style: TextStyle(
-                            fontSize: 14,
-                            letterSpacing: 0,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.normal),
-                      )
-                    : (controller.appState.isServerStartFailed
-                        ? const Text(
-                            "Service start failed",
-                            style: TextStyle(
-                                fontSize: 14,
-                                letterSpacing: 0,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.normal),
-                          )
-                        : textAnimation(
-                            text: "Initializing AI service...",
-                            controller: controller
-                                .appState.aiServiceAnimationController,
-                            font_size: 14,
-                          )),
-                Padding(
-                  padding: const EdgeInsets.only(left: 50, right: 50, top: 60),
-                  child: SizedBox(
+        body: Center(
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 600),
+              child: Card(
+                shadowColor: Colors.black54,
+                elevation: 40,
+                child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  const Divider(
                     height: 80,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: const Text(
-                        SCANNING_REQUIREMENTS,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.blueGrey),
-                      ),
+                    color: Colors.transparent,
+                  ),
+                  SizedBox(
+                    height: 70,
+                    width: 400,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Title'),
+                        const Spacer(),
+                        TextFormField(
+                          controller: textAreaController,
+                          onChanged: (value) {
+                            controller.appState.scanName = value;
+                            controller.updateApplicationState();
+                          },
+                          cursorColor: Colors.amber,
+                          decoration: const InputDecoration(
+                              filled: true,
+                              isDense: true,
+                              hintText: 'Enter title of this scan',
+                              border: OutlineInputBorder(
+                                  gapPadding: 0,
+                                  borderSide: BorderSide(
+                                      style: BorderStyle.none, width: 0))),
+                        ),
+                      ],
                     ),
                   ),
-                )
-              ]),
+                  const Divider(
+                    height: 40,
+                    color: Colors.transparent,
+                  ),
+                  diagnosing
+                      ? ScanProgress(
+                          percentage: calculateProgress(
+                              controller.filesDropped.length,
+                              totalImagesToScan))
+                      : const filePicker(),
+                  const Divider(
+                    height: 40,
+                    color: Colors.transparent,
+                  ),
+                  Text(
+                    '${controller.filesDropped.length} images uploaded',
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  const Divider(
+                    height: 40,
+                    color: Colors.transparent,
+                  ),
+                  SizedBox(
+                    width: 300,
+                    child: MouseRegion(
+                        cursor: controller.appState.isServerOnline
+                            ? SystemMouseCursors.click
+                            : SystemMouseCursors.basic,
+                        onHover: controller.appState.isServerOnline
+                            ? (event) {}
+                            : null,
+                        child: ElevatedButton(
+                            onPressed: isAllReadyForScan(controller)
+                                ? () => checkReadyAndDoScan(controller)
+                                : null,
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  isAllReadyForScan(controller)
+                                      ? Colors.amber
+                                      : Colors.grey),
+                            ),
+                            child: const Text('Scan'))),
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  controller.appState.isServerOnline
+                      ? const Text(
+                          "Service is online",
+                          style: TextStyle(
+                              fontSize: 14,
+                              letterSpacing: 0,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.normal),
+                        )
+                      : (controller.appState.isServerStartFailed
+                          ? const Text(
+                              "Service start failed",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  letterSpacing: 0,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.normal),
+                            )
+                          : textAnimation(
+                              text: "Initializing AI service...",
+                              controller: controller
+                                  .appState.aiServiceAnimationController,
+                              font_size: 14,
+                            )),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 50, right: 50, top: 60),
+                    child: SizedBox(
+                      height: 80,
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: const Text(
+                          SCANNING_REQUIREMENTS,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.blueGrey),
+                        ),
+                      ),
+                    ),
+                  )
+                ]),
+              ),
             ),
           ),
         ),

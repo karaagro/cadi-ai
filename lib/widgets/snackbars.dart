@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/utils.dart';
+import 'package:toastification/toastification.dart';
 
-void showSimpleSnackBar(
-    {required BuildContext context,
-    required String message,
-    Color bgColor = Colors.blue,
-    Color color = Colors.black,
-    int duration = 3}) {
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    content: Text(message, style: TextStyle(color: color)),
-    backgroundColor: bgColor,
-    duration: Duration(seconds: duration),
-  ));
+void showSimpleSnackBar({
+  required BuildContext context,
+  required String message,
+  Color bgColor = Colors.blue,
+  Color color = Colors.black,
+  int duration = 3,
+}) {
+  toastification.show(
+    context: context,
+    title: Text(message, style: TextStyle(color: color)),
+    autoCloseDuration: Duration(seconds: duration),
+    type: ToastificationType.info,
+    style: ToastificationStyle.fillColored,
+  );
 }
 
 class SyncDataActionSnackBar extends SnackBar {
@@ -172,20 +176,121 @@ class PopupActionButton extends StatelessWidget {
   }
 }
 
-void showSyncDataActionSnackBar(
-    {required BuildContext context,
-    void Function()? onAccept,
-    void Function()? onDismiss,
-    void Function()? onClose}) {
-  ScaffoldMessenger.of(context).showSnackBar(SyncDataActionSnackBar(
-      context: context,
-      onAccept: onAccept,
-      onDismiss: onDismiss,
-      onClose: onClose));
+void showSyncDataActionSnackBar({
+  required BuildContext context,
+  void Function()? onAccept,
+  void Function()? onDismiss,
+  void Function()? onClose,
+}) {
+  final item = toastification.showCustom(
+    context: context,
+    autoCloseDuration: const Duration(minutes: 30),
+    alignment: Alignment.topCenter,
+    builder: (ctx, holder) {
+      return _SyncDataActionContent(
+        onAccept: () {
+          onAccept?.call();
+          toastification.dismiss(holder);
+          onClose?.call();
+        },
+        onDismiss: () {
+          onDismiss?.call();
+          toastification.dismiss(holder);
+          onClose?.call();
+        },
+        onClose: () {
+          toastification.dismiss(holder);
+          onClose?.call();
+        },
+      );
+    },
+  );
 }
 
 void _closeSyncDataActionSnackBar(
     BuildContext context, void Function()? onClose) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
   onClose?.call();
+}
+
+class _SyncDataActionContent extends StatelessWidget {
+  const _SyncDataActionContent({
+    Key? key,
+    required this.onAccept,
+    required this.onDismiss,
+    required this.onClose,
+  }) : super(key: key);
+
+  final void Function()? onAccept;
+  final void Function()? onDismiss;
+  final void Function()? onClose;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          width: 400,
+          height: 158,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: const Color(0xFF1b1b1b),
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                spreadRadius: 0,
+                blurRadius: 4,
+                offset: const Offset(2, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("You're online!",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white)),
+              const SizedBox(height: 11),
+              const Text(
+                "Sync your current history data to the cloud to access it from other devices",
+                style: TextStyle(color: Colors.white),
+              ),
+              const SizedBox(height: 11),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  PopupActionButton(
+                    text: "Dismiss",
+                    type: ButttonType.secondary,
+                    onPressed: () => onDismiss?.call(),
+                  ),
+                  const SizedBox(width: 5),
+                  PopupActionButton(
+                    text: "Sync",
+                    icon: Icons.cloud_sync,
+                    onPressed: () => onAccept?.call(),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: IconButton(
+              splashRadius: 25,
+              onPressed: () => onDismiss?.call(),
+              icon: const Icon(Icons.close, color: Colors.white),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
