@@ -84,8 +84,8 @@ class _HistoryImageCardsListState extends State<HistoryImageCardsList> {
       int loopCounter = 0;
 
       for (LatLng coords in mainController.appState.allScansLatLong) {
-        double nearLat = coords.latitude.toPrecision(7);
-        double nearLong = coords.longitude.toPrecision(7);
+        double nearLat = coords.latitude.degrees;
+        double nearLong = coords.longitude.degrees;
 
         if ((nearLat - currLat).abs() < NEAR_COORDS_THRESHOLD ||
             (nearLong - currLong).abs() < NEAR_COORDS_THRESHOLD &&
@@ -100,10 +100,10 @@ class _HistoryImageCardsListState extends State<HistoryImageCardsList> {
     void calculateAndSetDefaultZoom(currCoordsIndex) {
       double currLat = mainController
           .appState.allScansLatLong[currCoordsIndex].latitude
-          .toPrecision(7);
+          .degrees;
       double currLong = mainController
           .appState.allScansLatLong[currCoordsIndex].longitude
-          .toPrecision(7);
+          .degrees;
 
       int numberOfNearCoordsToCurrentCoord =
           getNumberOfNearCoords(currLat, currLong, currCoordsIndex);
@@ -132,8 +132,8 @@ class _HistoryImageCardsListState extends State<HistoryImageCardsList> {
 
     LatLng getAverageCenterOfAllCoords(List<LatLng> filteredLatLongs) {
       return filteredLatLongs.reduce((previous, current) {
-        return LatLng((previous.latitude + current.latitude) / 2,
-            (previous.longitude + current.longitude) / 2);
+        return LatLng(Angle.degree((previous.latitude.degrees + current.latitude.degrees) / 2),
+            Angle.degree((previous.longitude.degrees + current.longitude.degrees) / 2));
       });
     }
 
@@ -141,7 +141,7 @@ class _HistoryImageCardsListState extends State<HistoryImageCardsList> {
         List<isarImage.Image>? filteredScanImages) {
       List<LatLng> filteredLatLongs = filteredScanImages!
           .map((scanImage) =>
-              LatLng(scanImage.latCoordinates, scanImage.longCoordinates))
+              LatLng(Angle.degree(scanImage.latCoordinates), Angle.degree(scanImage.longCoordinates)))
           .toList();
 
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

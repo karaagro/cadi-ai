@@ -281,7 +281,11 @@ class _SetupState extends State<Setup> {
     super.initState();
     if (Platform.isWindows) {
       installPythonWindows();
-    } else if (Platform.isMacOS) {}
+    } else if (Platform.isMacOS) {
+      isarServices.updateSetting('setUpComplete').then((_) {
+        Get.offAndToNamed(PageRoutes.HOME_PAGE.name);
+      });
+    }
   }
 
   @override

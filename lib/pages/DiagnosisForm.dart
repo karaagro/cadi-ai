@@ -428,11 +428,6 @@ class filePicker extends StatelessWidget {
                   controller.updateFileDropped(isDropped: true);
                 },
                 child: DottedBorder(
-                  color: Colors.amber.shade700,
-                  borderType: BorderType.RRect,
-                  dashPattern: const [12, 10, 12, 10],
-                  radius: const Radius.circular(6),
-                  padding: const EdgeInsets.all(0),
                   child: Container(
                       decoration: BoxDecoration(
                           color: controller.isFileDropped

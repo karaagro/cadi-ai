@@ -8,7 +8,7 @@ import 'package:map/map.dart';
 class AppState {
   late AnimationController aiServiceAnimationController;
   final MapController mapController = MapController(
-    location: LatLng(5.6557387, -0.1582376),
+    location: LatLng(Angle.degree(5.6557387), Angle.degree(-0.1582376)),
   );
   Function updateMapState = () {};
 
