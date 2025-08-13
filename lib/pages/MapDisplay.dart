@@ -154,7 +154,7 @@ class MapDisplayState extends State<MapDisplay> {
           controller: mainController.appState.mapController,
           builder: (context, transformer) {
             final markerPositions = mainController.appState.allScansLatLong
-                .map((latLng) => Offset(0, 0)) // Placeholder - map API needs updating
+                .map((latLng) => transformer.toOffset(latLng))
                 .toList();
 
             final markerWidgets =

@@ -99,11 +99,9 @@ class _HistoryImageCardsListState extends State<HistoryImageCardsList> {
 
     void calculateAndSetDefaultZoom(currCoordsIndex) {
       double currLat = mainController
-          .appState.allScansLatLong[currCoordsIndex].latitude
-          .degrees;
+          .appState.allScansLatLong[currCoordsIndex].latitude.degrees;
       double currLong = mainController
-          .appState.allScansLatLong[currCoordsIndex].longitude
-          .degrees;
+          .appState.allScansLatLong[currCoordsIndex].longitude.degrees;
 
       int numberOfNearCoordsToCurrentCoord =
           getNumberOfNearCoords(currLat, currLong, currCoordsIndex);
@@ -132,16 +130,19 @@ class _HistoryImageCardsListState extends State<HistoryImageCardsList> {
 
     LatLng getAverageCenterOfAllCoords(List<LatLng> filteredLatLongs) {
       return filteredLatLongs.reduce((previous, current) {
-        return LatLng(Angle.degree((previous.latitude.degrees + current.latitude.degrees) / 2),
-            Angle.degree((previous.longitude.degrees + current.longitude.degrees) / 2));
+        return LatLng(
+            Angle.degree(
+                (previous.latitude.degrees + current.latitude.degrees) / 2),
+            Angle.degree(
+                (previous.longitude.degrees + current.longitude.degrees) / 2));
       });
     }
 
     void initializeMapCoordsAfterBuild(
         List<isarImage.Image>? filteredScanImages) {
       List<LatLng> filteredLatLongs = filteredScanImages!
-          .map((scanImage) =>
-              LatLng(Angle.degree(scanImage.latCoordinates), Angle.degree(scanImage.longCoordinates)))
+          .map((scanImage) => LatLng(Angle.degree(scanImage.latCoordinates),
+              Angle.degree(scanImage.longCoordinates)))
           .toList();
 
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
