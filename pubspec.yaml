@@ -37,8 +37,11 @@ dependencies:
 #  filesystem_picker: ^2.0.1
   dotted_border: ^3.1.0
   flutter_form_builder: ^10.0.1
-  map: any
+  flutter_map: ^7.0.2
   cached_network_image: ^3.2.1
+  sqflite: ^2.3.0
+  dio: ^5.4.0
+  crypto: ^3.0.3
   responsive_framework: ^1.5.1
   form_builder_validators: ^11.2.0
   uuid: ^4.5.1

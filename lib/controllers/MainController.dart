@@ -5,7 +5,7 @@ import 'package:cadi_ai/utils/helpers.dart';
 import 'package:cadi_ai/entities/LocalTestHistory.dart';
 import 'package:cadi_ai/entities/appstate.dart';
 import 'package:cadi_ai/entities/history.dart';
-import 'package:latlng/latlng.dart';
+import 'package:latlong2/latlong.dart';
 
 class MainController extends GetxController {
   bool isFileDropped = false;

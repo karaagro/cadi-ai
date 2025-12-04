@@ -2,14 +2,12 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import 'package:cadi_ai/entities/history.dart';
-import 'package:latlng/latlng.dart';
-import 'package:map/map.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:flutter_map/flutter_map.dart';
 
 class AppState {
   late AnimationController aiServiceAnimationController;
-  final MapController mapController = MapController(
-    location: LatLng(Angle.degree(5.6557387), Angle.degree(-0.1582376)),
-  );
+  final MapController mapController = MapController();
   Function updateMapState = () {};
 
   History selectedHistory = History(
@@ -20,6 +18,9 @@ class AppState {
       totalPest: 0);
 
   RxList<LatLng> allScansLatLong = <LatLng>[].obs;
+  
+  // Default location for Ghana/West Africa (cashew growing region)
+  LatLng get defaultLocation => LatLng(5.6557387, -0.1582376);
   RxInt selectedScanImageIndex = 0.obs;
 
   bool isServerOnline = false;

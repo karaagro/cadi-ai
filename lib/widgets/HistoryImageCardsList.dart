@@ -11,7 +11,7 @@ import 'package:cadi_ai/services/isar_services.dart';
 import 'package:cadi_ai/widgets/HistoryImageLoader.dart';
 import 'package:cadi_ai/widgets/ImageDialogTitle.dart';
 // ignore: depend_on_referenced_packages
-import 'package:latlng/latlng.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:intl/intl.dart';
 
 class HistoryImageCardsList extends StatefulWidget {
@@ -84,8 +84,8 @@ class _HistoryImageCardsListState extends State<HistoryImageCardsList> {
       int loopCounter = 0;
 
       for (LatLng coords in mainController.appState.allScansLatLong) {
-        double nearLat = coords.latitude.degrees;
-        double nearLong = coords.longitude.degrees;
+        double nearLat = coords.latitude;
+        double nearLong = coords.longitude;
 
         if ((nearLat - currLat).abs() < NEAR_COORDS_THRESHOLD ||
             (nearLong - currLong).abs() < NEAR_COORDS_THRESHOLD &&
@@ -99,27 +99,45 @@ class _HistoryImageCardsListState extends State<HistoryImageCardsList> {
 
     void calculateAndSetDefaultZoom(currCoordsIndex) {
       double currLat = mainController
-          .appState.allScansLatLong[currCoordsIndex].latitude.degrees;
+          .appState.allScansLatLong[currCoordsIndex].latitude;
       double currLong = mainController
-          .appState.allScansLatLong[currCoordsIndex].longitude.degrees;
+          .appState.allScansLatLong[currCoordsIndex].longitude;
 
       int numberOfNearCoordsToCurrentCoord =
           getNumberOfNearCoords(currLat, currLong, currCoordsIndex);
 
-      if (numberOfNearCoordsToCurrentCoord > 3) {
-        mainController.appState.mapController.zoom = 22;
-      } else {
-        mainController.appState.mapController.zoom = 18;
-      }
+      // Zoom is handled by the move method
     }
 
     void onScanClicked(MainController mainController, int index) {
-      calculateAndSetDefaultZoom(index);
-      mainController.appState.mapController.center =
-          mainController.appState.allScansLatLong[index];
-      mainController.appState.selectedScanImageIndex = index.obs;
-      mainController.appState.allScansLatLong.refresh();
-      mainController.appState.selectedScanImageIndex.refresh();
+      try {
+        print('onScanClicked: Setting selectedScanImageIndex to $index');
+        
+        double currLat = mainController.appState.allScansLatLong[index].latitude;
+        double currLong = mainController.appState.allScansLatLong[index].longitude;
+        int numberOfNearCoords = getNumberOfNearCoords(currLat, currLong, index);
+        double zoomLevel = 20.0;
+        
+        // Check if map controller is ready before using it
+        if (mainController.appState.mapController.camera != null) {
+          mainController.appState.mapController.move(
+              mainController.appState.allScansLatLong[index], 
+              zoomLevel);
+        }
+        
+        // Update the selected index
+        mainController.appState.selectedScanImageIndex.value = index;
+        print('onScanClicked: selectedScanImageIndex updated to ${mainController.appState.selectedScanImageIndex.value}');
+        
+        mainController.appState.allScansLatLong.refresh();
+        mainController.appState.selectedScanImageIndex.refresh();
+      } catch (e) {
+        print('Map navigation failed: $e');
+        // Still update the selected index even if map navigation fails
+        mainController.appState.selectedScanImageIndex.value = index;
+        mainController.appState.allScansLatLong.refresh();
+        mainController.appState.selectedScanImageIndex.refresh();
+      }
     }
 
     void removeAllFromLatLongList() {
@@ -129,28 +147,43 @@ class _HistoryImageCardsListState extends State<HistoryImageCardsList> {
     }
 
     LatLng getAverageCenterOfAllCoords(List<LatLng> filteredLatLongs) {
-      return filteredLatLongs.reduce((previous, current) {
-        return LatLng(
-            Angle.degree(
-                (previous.latitude.degrees + current.latitude.degrees) / 2),
-            Angle.degree(
-                (previous.longitude.degrees + current.longitude.degrees) / 2));
-      });
+      if (filteredLatLongs.isEmpty) {
+        // Return default location if no coordinates available
+        return LatLng(5.6557387, -0.1582376); // Ghana default
+      }
+      
+      double avgLat = filteredLatLongs
+              .map((latLong) => latLong.latitude)
+              .reduce((a, b) => a + b) /
+          filteredLatLongs.length;
+      double avgLong = filteredLatLongs
+              .map((latLong) => latLong.longitude)
+              .reduce((a, b) => a + b) /
+          filteredLatLongs.length;
+      return LatLng(avgLat, avgLong);
     }
 
     void initializeMapCoordsAfterBuild(
         List<isarImage.Image>? filteredScanImages) {
       List<LatLng> filteredLatLongs = filteredScanImages!
-          .map((scanImage) => LatLng(Angle.degree(scanImage.latCoordinates),
-              Angle.degree(scanImage.longCoordinates)))
+          .map((scanImage) => LatLng(scanImage.latCoordinates, scanImage.longCoordinates))
           .toList();
 
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         removeAllFromLatLongList();
-        mainController.appState.mapController.center =
-            getAverageCenterOfAllCoords(filteredLatLongs);
-        mainController.appState.allScansLatLong.addAll(filteredLatLongs);
-        mainController.appState.allScansLatLong.refresh();
+        if (filteredLatLongs.isNotEmpty) {
+          try {
+            final center = getAverageCenterOfAllCoords(filteredLatLongs);
+            // Check if map controller is ready before using it
+            if (mainController.appState.mapController.camera != null) {
+              mainController.appState.mapController.move(center, 15.0);
+            }
+          } catch (e) {
+            print('Map center update failed: $e');
+          }
+          mainController.appState.allScansLatLong.addAll(filteredLatLongs);
+          mainController.appState.allScansLatLong.refresh();
+        }
         mainController.appState.selectedScanImageIndex = 0.obs;
         mainController.appState.selectedScanImageIndex.refresh();
       });
