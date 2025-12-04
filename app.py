@@ -251,7 +251,7 @@ def run_inference_on_crops(image_path: str, grid_size: int = 2,
         
         # Draw label
         label = f"{det['name']}: {det['confidence']:.2f}"
-        label_size, _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
+        label_size, _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 1.0, 2)
         
         # Draw label background
         cv2.rectangle(annotated_image, 
@@ -263,7 +263,7 @@ def run_inference_on_crops(image_path: str, grid_size: int = 2,
         cv2.putText(annotated_image, label,
                    (x1, y1 - 2),
                    cv2.FONT_HERSHEY_SIMPLEX,
-                   0.5, (255, 255, 255), 1)
+                   1.0, (255, 255, 255), 2)
     
     return merged_detections, annotated_image
 
